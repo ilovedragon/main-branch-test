@@ -2,8 +2,6 @@ name: Run on Dev system
 on:
     workflow_dispatch:
     push:
-      branches:
-        - 'feature/dev-github-action-by-pohleng)'
     pull_request:
 
 
@@ -11,6 +9,11 @@ on:
 jobs:
   run-shell-command:
     runs-on: ubuntu-latest
+    if:
+        contains('
+          refs/heads/Dev
+          refs/heads/Prod
+        ', github.ref)
     steps:
       - name: Echo the curret environment
         run: echo "Hello ${{ github.ref }} environment"
