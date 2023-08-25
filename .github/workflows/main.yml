@@ -3,53 +3,29 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - Dev
-      - Stage
-      - Prod
+      - '*'
 
 jobs:
-- name: Build and Deploy
-  if: |
-      github.ref == 'refs/heads/Dev' ||
-      github.ref == 'refs/heads/Stage' ||
-      github.ref == 'refs/heads/Prod'
+  build-and-deploy:
     runs-on: ubuntu-latest
-
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.base.ref == 'Stage' || github.event.pull_request.base.ref == 'Prod')
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Run specific instructions for Dev branch
-      - name: Dev Branch Instructions
-        if: github.ref == 'refs/heads/Dev'
+      - name: Run Instructions
         run: |
-          echo "Running instructions for Dev branch..."
-          # Add your specific Dev branch instructions here
-
-  build-and-deploy-Stage:
-    runs-on: ubuntu-latest
-    needs: build-and-deploy-Dev
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      # Run specific instructions for Stage branch
-      - name: Stage Branch Instructions
-        if: github.ref == 'refs/heads/Stage'
-        run: |
-          echo "Running instructions for Stage branch..."
-          # Add your specific Stage branch instructions here
-
-  build-and-deploy-Prod:
-    runs-on: ubuntu-latest
-    needs: build-and-deploy-Stage
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      # Run specific instructions for Prod branch
-      - name: Prod Branch Instructions
-        if: github.ref == 'refs/heads/Prod'
-        run: |
-          echo "Running instructions for Prod branch..."
-          # Add your specific Prod branch instructions here
+          if [[ ${{ github.ref }} == 'refs/heads/Dev' ]]; then
+            echo "Running instructions for Dev branch..."
+            # Add your specific Dev branch instructions here
+          elif [[ ${{ github.ref }} == 'refs/heads/Stage' ]]; then
+            echo "Running instructions for Stage branch..."
+            # Add your specific Stage branch instructions here
+          elif [[ ${{ github.ref }} == 'refs/heads/Prod' ]]; then
+            echo "Running instructions for Prod branch..."
+            # Add your specific Prod branch instructions here
+          else
+            echo "Running instructions for branch: ${{ github.ref }}"
+            # Add instructions for other branches here
+          fi
