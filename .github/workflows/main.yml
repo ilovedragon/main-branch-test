@@ -8,28 +8,48 @@ on:
       - Prod
 
 jobs:
-    - name: Build and Deploy
-    if: |
-        github.ref == 'refs/heads/Dev' ||
-        github.ref == 'refs/heads/Stage' ||
-        github.ref == 'refs/heads/Prod'
+- name: Build and Deploy
+  if: |
+      github.ref == 'refs/heads/Dev' ||
+      github.ref == 'refs/heads/Stage' ||
+      github.ref == 'refs/heads/Prod'
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-    uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Run Instructions
-    run: |
-        if [[ ${{ github.ref }} == 'refs/heads/Dev' ]]; then
-        echo "Running instructions for Dev branch..."
-        # Add your specific Dev branch instructions here
-        elif [[ ${{ github.ref }} == 'refs/heads/Stage' ]]; then
-        echo "Running instructions for Stage branch..."
-        # Add your specific Stage branch instructions here
-        elif [[ ${{ github.ref }} == 'refs/heads/Prod' ]]; then
-        echo "Running instructions for Prod branch..."
-        # Add your specific Prod branch instructions here
-        else
-        echo "No specific branch instructions found."
-        fi
+      # Run specific instructions for Dev branch
+      - name: Dev Branch Instructions
+        if: github.ref == 'refs/heads/Dev'
+        run: |
+          echo "Running instructions for Dev branch..."
+          # Add your specific Dev branch instructions here
+
+  build-and-deploy-Stage:
+    runs-on: ubuntu-latest
+    needs: build-and-deploy-Dev
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Run specific instructions for Stage branch
+      - name: Stage Branch Instructions
+        if: github.ref == 'refs/heads/Stage'
+        run: |
+          echo "Running instructions for Stage branch..."
+          # Add your specific Stage branch instructions here
+
+  build-and-deploy-Prod:
+    runs-on: ubuntu-latest
+    needs: build-and-deploy-Stage
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Run specific instructions for Prod branch
+      - name: Prod Branch Instructions
+        if: github.ref == 'refs/heads/Prod'
+        run: |
+          echo "Running instructions for Prod branch..."
+          # Add your specific Prod branch instructions here
