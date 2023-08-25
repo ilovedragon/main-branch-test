@@ -3,17 +3,12 @@ on:
     workflow_dispatch:
     push:
     pull_request:
-
-
-
+        branches:
+            - Dev
+    
 jobs:
   run-shell-command:
     runs-on: ubuntu-latest
-    if:
-        contains('
-          refs/heads/Dev
-          refs/heads/Prod
-        ', github.ref)
     steps:
       - name: Echo the curret environment
         run: echo "Hello ${{ github.ref }} environment"
