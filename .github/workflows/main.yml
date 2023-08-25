@@ -8,28 +8,28 @@ on:
       - Prod
 
 jobs:
-  - name: Build and Deploy
+    - name: Build and Deploy
     if: |
-      github.ref == 'refs/heads/Dev' ||
-      github.ref == 'refs/heads/Stage' ||
-      github.ref == 'refs/heads/Prod'
+        github.ref == 'refs/heads/Dev' ||
+        github.ref == 'refs/heads/Stage' ||
+        github.ref == 'refs/heads/Prod'
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout code
+    uses: actions/checkout@v2
 
-      - name: Run Instructions
-        run: |
-          if [[ ${{ github.ref }} == 'refs/heads/Dev' ]]; then
-            echo "Running instructions for Dev branch..."
-            # Add your specific Dev branch instructions here
-          elif [[ ${{ github.ref }} == 'refs/heads/Stage' ]]; then
-            echo "Running instructions for Stage branch..."
-            # Add your specific Stage branch instructions here
-          elif [[ ${{ github.ref }} == 'refs/heads/Prod' ]]; then
-            echo "Running instructions for Prod branch..."
-            # Add your specific Prod branch instructions here
-          else
-            echo "No specific branch instructions found."
-          fi
+    - name: Run Instructions
+    run: |
+        if [[ ${{ github.ref }} == 'refs/heads/Dev' ]]; then
+        echo "Running instructions for Dev branch..."
+        # Add your specific Dev branch instructions here
+        elif [[ ${{ github.ref }} == 'refs/heads/Stage' ]]; then
+        echo "Running instructions for Stage branch..."
+        # Add your specific Stage branch instructions here
+        elif [[ ${{ github.ref }} == 'refs/heads/Prod' ]]; then
+        echo "Running instructions for Prod branch..."
+        # Add your specific Prod branch instructions here
+        else
+        echo "No specific branch instructions found."
+        fi
