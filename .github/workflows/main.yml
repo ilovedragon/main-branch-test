@@ -10,7 +10,6 @@ on:
 jobs:
   build-and-deploy-Dev:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.base.ref == 'Stage' || github.event.pull_request.base.ref == 'Prod')
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
