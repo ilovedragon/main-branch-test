@@ -14,5 +14,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Echo the curret environment
-        run: echo "Hello ${GITHUB_REF##*/} environment"
+        run: echo "Hello ${{ github.ref }} environment"
 
