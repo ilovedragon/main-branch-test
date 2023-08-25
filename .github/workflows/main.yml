@@ -8,7 +8,7 @@ on:
       - Prod
 
 jobs:
-  build-and-deploy:
+  build-and-deploy-Dev:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,12 +22,26 @@ jobs:
           echo "Running instructions for Dev branch..."
           # Add your specific Dev branch instructions here
 
+  build-and-deploy-Stage:
+    runs-on: ubuntu-latest
+    needs: build-and-deploy-Dev
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
       # Run specific instructions for Stage branch
       - name: Stage Branch Instructions
         if: github.ref == 'refs/heads/Stage'
         run: |
           echo "Running instructions for Stage branch..."
           # Add your specific Stage branch instructions here
+
+  build-and-deploy-Prod:
+    runs-on: ubuntu-latest
+    needs: build-and-deploy-Stage
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
       # Run specific instructions for Prod branch
       - name: Prod Branch Instructions
