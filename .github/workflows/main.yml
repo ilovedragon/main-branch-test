@@ -1,0 +1,37 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - Dev
+      - Stage
+      - Prod
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Run specific instructions for Dev branch
+      - name: Dev Branch Instructions
+        if: github.ref == 'refs/heads/Dev'
+        run: |
+          echo "Running instructions for Dev branch..."
+          # Add your specific Dev branch instructions here
+
+      # Run specific instructions for Stage branch
+      - name: Stage Branch Instructions
+        if: github.ref == 'refs/heads/Stage'
+        run: |
+          echo "Running instructions for Stage branch..."
+          # Add your specific Stage branch instructions here
+
+      # Run specific instructions for Prod branch
+      - name: Prod Branch Instructions
+        if: github.ref == 'refs/heads/Prod'
+        run: |
+          echo "Running instructions for Prod branch..."
+          # Add your specific Prod branch instructions here
