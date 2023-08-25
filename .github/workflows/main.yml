@@ -4,8 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - "Dev"
-  pull_request:
+      - "*"
 
 jobs:
   build-and-deploy-Dev:
