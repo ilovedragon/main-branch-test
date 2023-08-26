@@ -1,11 +1,15 @@
 name: Run on Dev system
-on: [push,pull_request,workflow_dispatch] 
-
-
+on:
+    workflow_dispatch:
+    push:
+    pull_request:
+        branches:
+            - Dev
+    
 jobs:
   run-shell-command:
     runs-on: ubuntu-latest
     steps:
       - name: Echo the curret environment
-        run: echo "Hello Dev environment"
+        run: echo "Hello ${{ github.ref }} environment"
 
